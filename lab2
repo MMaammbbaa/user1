@@ -1,0 +1,36 @@
+class McCullochPitteNeuron:
+    def __init__(self, weights, threshold):
+        self.weights = weights
+        self.threshold = threshold
+
+    def activate(self, inputs):
+        weighted_sum = sum([inputs[i] * self.weights[i] for i in range(len(inputs))])
+        return 1 if weighted_sum >= self.threshold else 0
+
+and_not_weights = [1, -1]
+and_not_threshold = 1
+and_not_neuron = McCullochPitteNeuron(and_not_weights, and_not_threshold)
+
+input_values_and_not = [(0, 0), (0, 1), (1, 0), (1, 1)]
+print("And not")
+for inputs in input_values_and_not:
+    outputs = and_not_neuron.activate(inputs)
+    print(f"Input={inputs}, Output={outputs}")
+
+xor_weights = [1, 1]
+xor_threshold = 2
+xor_neuron = McCullochPitteNeuron(xor_weights, xor_threshold)
+
+or_weights = [1, 1]
+or_threshold = 1
+or_neuron = McCullochPitteNeuron(or_weights, or_threshold)
+
+nand_weights = [-1, -1]
+nand_threshold = -1
+nand_neuron = McCullochPitteNeuron(nand_weights, nand_threshold)
+
+input_values_xor = [(0, 0), (0, 1), (1, 0), (1, 1)]
+print("XOR")
+for inputs in input_values_xor:
+    outputs = xor_neuron.activate((nand_neuron.activate(inputs), or_neuron.activate(inputs)))
+    print(f"Input={inputs}, Output={outputs}")
